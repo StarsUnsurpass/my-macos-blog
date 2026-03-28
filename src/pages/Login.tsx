@@ -76,7 +76,6 @@ export default function Login(props: MacActions) {
             onChange={handleInputChange}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
-            autoFocus
           />
           
           <div className="text-[13px] text-white/80 transition-colors h-5">

@@ -5,9 +5,10 @@ interface ContextMenuProps {
   y: number;
   visible: boolean;
   onClose: () => void;
+  onRefresh: () => void;
 }
 
-export default function ContextMenu({ x, y, visible, onClose }: ContextMenuProps) {
+export default function ContextMenu({ x, y, visible, onClose, onRefresh }: ContextMenuProps) {
   if (!visible) return null;
 
   return (
@@ -19,7 +20,7 @@ export default function ContextMenu({ x, y, visible, onClose }: ContextMenuProps
       <div
         className="macos-v2-context-menu-item"
         onClick={() => {
-          window.location.reload();
+          onRefresh();
           onClose();
         }}
       >
