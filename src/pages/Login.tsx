@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { wallpapers, user } from "~/configs";
 import { useStore } from "~/stores";
+import { sha256 } from "~/utils";
 import type { MacActions } from "~/types";
 
 export default function Login(props: MacActions) {
@@ -17,18 +18,28 @@ export default function Login(props: MacActions) {
     setPassword(e.target.value);
   };
 
-  const loginHandle = () => {
+  const loginHandle = async () => {
     // 防御性检查
     if (!user) {
       props.setLogin(true);
       return;
     }
     
-    if (!user.password || user.password === "" || user.password === password) {
+    // Hash the input password if it's not empty
+    const inputHash = password ? await sha256(password) : "";
+    
+    // Decode stored hash (Base64 obfuscated)
+    const storedHash = user.password ? atob(user.password) : "";
+    
+    if (storedHash === "" || storedHash === inputHash) {
       // not set password or password correct
+      if (storedHash !== "" && password === "") {
+        setSign("Password required");
+        return;
+      }
       props.setLogin(true);
-    } else if (password !== "") {
-      // password not null and incorrect
+    } else {
+      // password incorrect
       setSign("Incorrect password");
     }
   };
