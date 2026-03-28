@@ -6,7 +6,7 @@ import type { MacActions } from "~/types";
 
 export default function Login(props: MacActions) {
   const [password, setPassword] = useState("");
-  const [sign, setSign] = useState("Click to enter");
+  const [sign, setSign] = useState("");
   const dark = useStore((state) => state.dark);
 
   const keyPress = (e: React.KeyboardEvent) => {
