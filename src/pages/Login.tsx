@@ -7,6 +7,7 @@ import type { MacActions } from "~/types";
 export default function Login(props: MacActions) {
   const [password, setPassword] = useState("");
   const [sign, setSign] = useState("");
+  const [isFocused, setIsFocused] = useState(false);
   const dark = useStore((state) => state.dark);
 
   const keyPress = (e: React.KeyboardEvent) => {
@@ -55,7 +56,6 @@ export default function Login(props: MacActions) {
         backgroundSize: "cover",
         backgroundPosition: "center"
       }}
-      onClick={() => loginHandle()}
     >
       <div className="flex flex-col items-center -mt-20">
         {/* Avatar */}
@@ -69,15 +69,17 @@ export default function Login(props: MacActions) {
           <input
             className="macos-v2-login-input w-48 text-center text-[13px] placeholder-white/60 shadow-lg"
             type="password"
-            placeholder="Enter Password"
+            placeholder={isFocused ? "" : "Enter Password"}
             onClick={(e) => e.stopPropagation()}
             onKeyDown={keyPress}
             value={password}
             onChange={handleInputChange}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
             autoFocus
           />
           
-          <div className="text-[13px] text-white/80 cursor-pointer hover:text-white transition-colors">
+          <div className="text-[13px] text-white/80 transition-colors h-5">
             {sign}
           </div>
         </div>
