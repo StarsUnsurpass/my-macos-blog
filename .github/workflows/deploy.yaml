@@ -1,41 +1,42 @@
-name: build-and-deploy
+name: Deploy Blog to Aliyun
 
+# 触发条件：当你将代码 push 到 main 分支时触发（如果你的默认分支叫 master，请改成 master）
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches:
+      - master 
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
-
-    env:
-      NODE_VERSION: 20
+    # 这就是微软借给你的免费高配 Ubuntu 服务器
+    runs-on: ubuntu-latest 
 
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+    # 1. 微软服务器拉取你的博客源码
+    - name: Checkout Code
+      uses: actions/checkout@v3
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
+    # 2. 微软服务器安装 Node.js 环境
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20' # 使用稳定的 Node 版本
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: pnpm
+    # 3. 核心步骤：安装依赖并执行高耗能的打包编译！
+    - name: Install and Build
+      run: |
+        npm install
+        npm run build
+      # 💡 注意：如果你的框架打包命令不是 npm run build，请在这里修改。
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Build site
-        run: pnpm build
-
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: dist
-          cname: portfolio.zxh.me
+    # 4. 把打包好的文件安全地快递到你的阿里云服务器
+    - name: Deploy to Aliyun Server
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.SERVER_IP }}
+        username: root
+        key: ${{ secrets.SERVER_SSH_KEY }}
+        # 👇 下面这两行需要根据你的实际情况修改！
+        source: "dist/*" # 打包后生成的文件夹名字（Hexo通常是 public/*，Vue通常是 dist/*）
+        target: "/var/www/myblog/" # 你的阿里云服务器上，Nginx 配置的那个存放网页的绝对路径
+        strip_components: 1 # 剥除外面那层 dist 文件夹，直接把里面的 index.html 放进 target 目录
