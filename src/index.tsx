@@ -13,19 +13,26 @@ import "katex/dist/katex.min.css";
 import "~/styles/index.css";
 
 export default function App() {
-  const [login, setLogin] = useState<boolean>(false);
+  const [login, setLogin] = useState<boolean>(
+    sessionStorage.getItem("isLoggedIn") === "true"
+  );
   const [booting, setBooting] = useState<boolean>(false);
   const [restart, setRestart] = useState<boolean>(false);
   const [sleep, setSleep] = useState<boolean>(false);
   const [shutdown, setShutdown] = useState<boolean>(false);
   const [duration, setDuration] = useState<number>(0.8);
 
+  const handleSetLogin = (value: boolean) => {
+    setLogin(value);
+    sessionStorage.setItem("isLoggedIn", value.toString());
+  };
+
   const shutMac = (e: React.MouseEvent): void => {
     if (e) e.stopPropagation();
     setDuration(1.2);
     setRestart(false);
     setSleep(false);
-    setLogin(false);
+    handleSetLogin(false);
     setBooting(true);
     setShutdown(true);
   };
@@ -35,7 +42,7 @@ export default function App() {
     setDuration(1.2);
     setRestart(true);
     setSleep(false);
-    setLogin(false);
+    handleSetLogin(false);
     setBooting(true);
     setShutdown(false);
   };
@@ -45,7 +52,7 @@ export default function App() {
     setDuration(0.3);
     setRestart(false);
     setSleep(true);
-    setLogin(false);
+    handleSetLogin(false);
     setBooting(true);
     setShutdown(false);
   };
@@ -80,7 +87,7 @@ export default function App() {
             className="size-full"
           >
             <Desktop
-              setLogin={setLogin}
+              setLogin={handleSetLogin}
               shutMac={shutMac}
               sleepMac={sleepMac}
               restartMac={restartMac}
@@ -96,7 +103,7 @@ export default function App() {
             className="size-full"
           >
             <Login
-              setLogin={setLogin}
+              setLogin={handleSetLogin}
               shutMac={shutMac}
               sleepMac={sleepMac}
               restartMac={restartMac}

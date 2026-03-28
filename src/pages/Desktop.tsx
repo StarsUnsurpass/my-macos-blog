@@ -45,7 +45,6 @@ export default function Desktop(props: MacActions) {
 
   const [contextMenu, setContextMenu] = useState({ visible: false, x: 0, y: 0 });
   const [spotlightBtnRef, setSpotlightBtnRef] = useState<React.RefObject<HTMLDivElement> | null>(null);
-  const [isRefreshing, setIsRefreshing] = useState(false);
 
   const dark = useStore((state) => state.dark);
   const brightness = useStore((state) => state.brightness);
@@ -76,13 +75,6 @@ export default function Desktop(props: MacActions) {
 
   const closeContextMenu = () => {
     setContextMenu((prev) => ({ ...prev, visible: false }));
-  };
-
-  const handleRefresh = () => {
-    setIsRefreshing(true);
-    setTimeout(() => {
-      setIsRefreshing(false);
-    }, 1000);
   };
 
   const toggleLaunchpad = (target: boolean): void => {
@@ -172,33 +164,14 @@ export default function Desktop(props: MacActions) {
 
   return (
     <div
-      className="size-full overflow-hidden bg-center bg-cover bg-[#1e1e1f] transition-all duration-700"
+      className="size-full overflow-hidden bg-center bg-cover bg-[#1e1e1f]"
       style={{
         backgroundImage: `url(${dark ? wallpapers.night : wallpapers.day})`,
-        filter: isRefreshing 
-          ? `brightness( ${brightness * 0.7 + 50}% ) blur(10px)` 
-          : `brightness( ${brightness * 0.7 + 50}% ) blur(0px)`
+        filter: `brightness( ${brightness * 0.7 + 50}% )`
       }}
       onContextMenu={handleContextMenu}
       onClick={closeContextMenu}
     >
-      <AnimatePresence>
-        {isRefreshing && (
-          <motion.div
-            key="refreshing-overlay"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[9999] flex items-center justify-center pointer-events-none"
-          >
-            <div className="bg-black/10 backdrop-blur-md p-6 rounded-3xl border border-white/20 shadow-2xl flex flex-col items-center">
-              <span className="i-svg-spinners:ring-resize text-4xl text-white/80 animate-spin mb-4" />
-              <span className="text-white/80 text-sm font-medium tracking-wide">Refreshing Desktop...</span>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
       <TopBar
         title={state.currentTitle}
         setLogin={props.setLogin}
@@ -278,7 +251,7 @@ export default function Desktop(props: MacActions) {
 
       <Widgets show={state.widgets} toggleWidgets={toggleWidgets} />
 
-      <ContextMenu {...contextMenu} onClose={closeContextMenu} onRefresh={handleRefresh} />
+      <ContextMenu {...contextMenu} onClose={closeContextMenu} />
 
       {/* ICP Filing - Subtle at bottom */}
       <div className="absolute bottom-2 w-full text-center pointer-events-none z-0">
