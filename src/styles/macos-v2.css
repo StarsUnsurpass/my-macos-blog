@@ -1,0 +1,194 @@
+
+/* 适配自 MacOS-CSS-master 的全局视觉样式 v2 */
+
+.macos-v2-window {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 40px 60px rgba(0, 0, 0, 0.3), 0 0 15px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.4);
+  background: rgba(30, 30, 31, 0.85);
+  backdrop-filter: blur(30px) saturate(1.5);
+  -webkit-backdrop-filter: blur(30px) saturate(1.5);
+}
+
+.macos-v2-window:after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  z-index: 999;
+  pointer-events: none;
+}
+
+.macos-v2-window-header {
+  height: 28px;
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.025));
+  box-shadow: inset 0 -1px 0 0 rgba(255, 255, 255, 0.05), 0 1px 5px 0 rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+}
+
+.macos-v2-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.macos-v2-control {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  position: relative;
+}
+
+.macos-v2-control-close { background: #FF5D5A; }
+.macos-v2-control-minimize { background: #f5c350; }
+.macos-v2-control-maximize { background: #65cd57; }
+
+.macos-v2-topbar {
+  background: rgba(30, 30, 31, 0.2);
+  backdrop-filter: blur(30px) saturate(1.5);
+  -webkit-backdrop-filter: blur(30px) saturate(1.5);
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15);
+}
+/* Dock 栏样式增强 */
+.macos-v2-dock {
+  background: rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(45px) saturate(2);
+  -webkit-backdrop-filter: blur(45px) saturate(2);
+  border: 0.5px solid rgba(255, 255, 255, 0.25);
+  border-radius: 20px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 0 1px rgba(255, 255, 255, 0.2);
+  padding: 6px 10px;
+  display: flex;
+  align-items: center;
+}
+
+.dark .macos-v2-dock {
+  background: rgba(0, 0, 0, 0.25);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.macos-v2-dock img {
+  /* Removed border-radius and reflect */
+  transition: transform 0.2s cubic-bezier(0.2, 0, 0.2, 1);
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2));
+}
+
+.macos-v2-dock li:active img {
+  transform: scale(0.9);
+}
+
+
+.macos-v2-panel {
+  background: rgba(30, 30, 31, 0.6);
+  backdrop-filter: blur(40px) saturate(1.8);
+  -webkit-backdrop-filter: blur(40px) saturate(1.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.macos-v2-cc-grid {
+  background: rgba(255, 255, 255, 0.1);
+  border: 0.5px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.macos-v2-context-menu {
+  position: fixed;
+  width: 180px;
+  background: rgba(30, 30, 31, 0.6);
+  backdrop-filter: blur(30px) saturate(1.5);
+  -webkit-backdrop-filter: blur(30px) saturate(1.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  padding: 5px;
+  z-index: 9999;
+}
+
+.macos-v2-context-menu-item {
+  padding: 6px 12px;
+  font-size: 13px;
+  color: white;
+  border-radius: 6px;
+  cursor: default;
+  transition: background 0.1s;
+}
+
+.macos-v2-context-menu-item:hover {
+  background: #006AFF;
+}
+
+.macos-v2-login-input {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  color: white;
+  padding: 6px 15px;
+  outline: none;
+  text-align: center;
+}
+
+.macos-v2-login-button {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+}
+
+.macos-v2-login-button:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* react-rangeslider macOS 风格覆盖 */
+.rangeslider-horizontal {
+  height: 28px !important;
+  border-radius: 14px !important;
+  background-color: rgba(0, 0, 0, 0.1) !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+}
+
+.dark .rangeslider-horizontal {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.rangeslider-horizontal .rangeslider__fill {
+  background-color: white !important;
+  border-radius: 14px !important;
+  box-shadow: none !important;
+}
+
+.rangeslider-horizontal .rangeslider__handle {
+  width: 26px !important;
+  height: 26px !important;
+  border-radius: 50% !important;
+  background-color: white !important;
+  border: 0.5px solid rgba(0,0,0,0.1) !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
+  top: 50% !important;
+  transform: translate3d(-50%, -50%, 0) !important;
+}
+
+.rangeslider-horizontal .rangeslider__handle:after {
+  display: none !important;
+}
+
+/* 活跃窗口效果 */
+.macos-v2-window:not(.focused) {
+  filter: brightness(0.8);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  transition: filter 0.3s, box-shadow 0.3s;
+}
+
+.macos-v2-window.focused {
+  filter: brightness(1);
+  box-shadow: 0 40px 60px rgba(0, 0, 0, 0.3), 0 0 15px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.4);
+}
