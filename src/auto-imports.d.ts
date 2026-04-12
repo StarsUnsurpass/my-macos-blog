@@ -21,6 +21,7 @@ declare global {
   const Launchpad: typeof import('./components/Launchpad')['default']
   const Mail: typeof import('./components/apps/Mail')['default']
   const Maps: typeof import('./components/apps/Maps')['default']
+  const MarkdownViewer: typeof import('./components/MarkdownViewer')['default']
   const MenuItem: typeof import('./components/menus/base')['MenuItem']
   const MenuItemGroup: typeof import('./components/menus/base')['MenuItemGroup']
   const Messages: typeof import('./components/apps/Messages')['default']

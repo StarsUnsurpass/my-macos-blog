@@ -1,0 +1,64 @@
+/* Markdown 渲染美化变量 */
+.markdown-body {
+  @apply text-base leading-relaxed break-words;
+}
+
+.markdown-body h1 {
+  @apply text-3xl font-bold mb-6 pb-2 border-b border-gray-200 dark:border-gray-700 mt-8;
+}
+
+.markdown-body h2 {
+  @apply text-2xl font-semibold mb-4 pb-1 border-b border-gray-100 dark:border-gray-800 mt-6;
+}
+
+.markdown-body h3 {
+  @apply text-xl font-medium mb-3 mt-5;
+}
+
+.markdown-body p {
+  @apply mb-4 leading-7;
+}
+
+.markdown-body ul, .markdown-body ol {
+  @apply mb-4 pl-6;
+}
+
+.markdown-body ul {
+  @apply list-disc;
+}
+
+.markdown-body ol {
+  @apply list-decimal;
+}
+
+.markdown-body li {
+  @apply mb-1;
+}
+
+.markdown-body blockquote {
+  @apply pl-4 border-l-4 border-gray-300 dark:border-gray-600 italic text-gray-600 dark:text-gray-400 mb-4 py-1;
+}
+
+.markdown-body table {
+  @apply w-full mb-4 border-collapse overflow-hidden rounded-lg;
+}
+
+.markdown-body th, .markdown-body td {
+  @apply border border-gray-300 dark:border-gray-700 px-4 py-2;
+}
+
+.markdown-body th {
+  @apply bg-gray-100 dark:bg-gray-800 font-bold;
+}
+
+.markdown-body img {
+  @apply max-w-full rounded-md shadow-sm my-4 mx-auto block;
+}
+
+.markdown-body code:not(pre code) {
+  @apply px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-red-500 font-mono text-sm;
+}
+
+.markdown-body pre {
+  @apply mb-4 rounded-lg overflow-hidden shadow-inner;
+}

@@ -134,7 +134,10 @@ export default class Terminal extends React.Component<{}, TerminalState> {
 
   mkdir = (args?: string) => {
     if (!args) return;
-    this.generateResultRow(this.curInputTimes, <span>mkdir: created directory '{args}'</span>);
+    this.generateResultRow(
+      this.curInputTimes,
+      <span>mkdir: created directory '{args}'</span>
+    );
   };
 
   touch = (args?: string) => {
@@ -152,7 +155,13 @@ export default class Terminal extends React.Component<{}, TerminalState> {
 
   uname = (args?: string) => {
     if (args === "-a") {
-      this.generateResultRow(this.curInputTimes, <span>Darwin MacBook-Pro.local 23.2.0 Darwin Kernel Version 23.2.0: Wed Nov 15 21:28:44 PST 2023; root:xnu-10002.61.3~2/RELEASE_ARM64_T6030 arm64</span>);
+      this.generateResultRow(
+        this.curInputTimes,
+        <span>
+          Darwin MacBook-Pro.local 23.2.0 Darwin Kernel Version 23.2.0: Wed Nov 15
+          21:28:44 PST 2023; root:xnu-10002.61.3~2/RELEASE_ARM64_T6030 arm64
+        </span>
+      );
     } else {
       this.generateResultRow(this.curInputTimes, <span>Darwin</span>);
     }
@@ -163,11 +172,14 @@ export default class Terminal extends React.Component<{}, TerminalState> {
   };
 
   who = () => {
-    this.generateResultRow(this.curInputTimes, <span>ace      console  Jan  1 00:00</span>);
+    this.generateResultRow(this.curInputTimes, <span>ace console Jan 1 00:00</span>);
   };
 
   uptime = () => {
-    this.generateResultRow(this.curInputTimes, <span>{`up ${Math.floor(Math.random() * 5 + 1)} days, 14:23, 2 users, load averages: 2.14 1.98 2.05`}</span>);
+    this.generateResultRow(
+      this.curInputTimes,
+      <span>{`up ${Math.floor(Math.random() * 5 + 1)} days, 14:23, 2 users, load averages: 2.14 1.98 2.05`}</span>
+    );
   };
 
   showHistory = () => {
@@ -187,33 +199,40 @@ export default class Terminal extends React.Component<{}, TerminalState> {
       ["841", "ttys000", "0:00.01", "ps"],
       ["102", "??", "1:24.05", "WindowServer"]
     ];
-    this.generateResultRow(this.curInputTimes, (
+    this.generateResultRow(
+      this.curInputTimes,
       <div className="space-y-1">
         {rows.map((row, i) => (
           <div key={i} className="grid grid-cols-4 w-full">
-            {row.map((cell, j) => <span key={j} className={i === 0 ? "font-bold opacity-60" : ""}>{cell}</span>)}
+            {row.map((cell, j) => (
+              <span key={j} className={i === 0 ? "font-bold opacity-60" : ""}>
+                {cell}
+              </span>
+            ))}
           </div>
         ))}
       </div>
-    ));
+    );
   };
 
   top = () => {
-    this.generateResultRow(this.curInputTimes, (
+    this.generateResultRow(
+      this.curInputTimes,
       <div className="space-y-1 opacity-80">
         <div>Processes: 421 total, 2 running, 419 sleeping...</div>
         <div>CPU usage: 12.4% user, 8.2% sys, 79.4% idle</div>
         <div>PhysMem: 16G used (2.4G wired), 19G unused.</div>
-        <div className="pt-2 font-bold underline">PID    COMMAND      %CPU  TIME     MEM</div>
-        <div>102    WindowServer 8.4   01:24:05 412M</div>
-        <div>612    Terminal     2.1   00:00:15 84M</div>
-        <div>42     Kernel       1.2   12:10:42 1.2G</div>
+        <div className="pt-2 font-bold underline">PID COMMAND %CPU TIME MEM</div>
+        <div>102 WindowServer 8.4 01:24:05 412M</div>
+        <div>612 Terminal 2.1 00:00:15 84M</div>
+        <div>42 Kernel 1.2 12:10:42 1.2G</div>
       </div>
-    ));
+    );
   };
 
   sudo = (args?: string) => {
-    this.generateResultRow(this.curInputTimes, (
+    this.generateResultRow(
+      this.curInputTimes,
       <div className="text-red-400 font-bold italic">
         "With great power comes great responsibility." — Uncle Ben
         <br />
@@ -221,12 +240,31 @@ export default class Terminal extends React.Component<{}, TerminalState> {
         <br />
         Sorry, try again.
       </div>
-    ));
+    );
+  };
+
+  fetchKnowledge = async () => {
+    try {
+      const response = await fetch("/src/configs/knowledge.json");
+      if (!response.ok) return;
+      const knowledge = await response.json();
+      // Only add if not already present
+      if (!terminal.find((item: any) => item.id === "knowledge")) {
+        terminal.unshift(knowledge);
+        // If we are at root, update current children
+        if (this.curDirPath.length === 0) {
+          this.curChildren = terminal;
+        }
+      }
+    } catch (e) {
+      console.error("Failed to load knowledge base:", e);
+    }
   };
 
   componentDidMount() {
     this.reset();
     this.generateInputRow(this.curInputTimes);
+    this.fetchKnowledge();
   }
 
   reset = () => {
@@ -338,17 +376,39 @@ export default class Terminal extends React.Component<{}, TerminalState> {
   help = () => {
     const help = (
       <ul className="list-disc ml-6 pb-1.5 opacity-80">
-        <li><span className="text-blue-400">ls</span> - List directory contents</li>
-        <li><span className="text-blue-400">cd {"<dir>"}</span> - Change directory</li>
-        <li><span className="text-blue-400">cat {"<file>"}</span> - Display file content</li>
-        <li><span className="text-blue-400">echo {"<text>"}</span> - Print text</li>
-        <li><span className="text-blue-400">date</span> - Show date/time</li>
-        <li><span className="text-blue-400">uname -a</span> - System info</li>
-        <li><span className="text-blue-400">uptime</span> - Show uptime</li>
-        <li><span className="text-blue-400">ps / top</span> - Process status</li>
-        <li><span className="text-blue-400">history</span> - Command history</li>
-        <li><span className="text-blue-400">clear</span> - Clear screen</li>
-        <li><span className="text-blue-400">help</span> - Show this help</li>
+        <li>
+          <span className="text-blue-400">ls</span> - List directory contents
+        </li>
+        <li>
+          <span className="text-blue-400">cd {"<dir>"}</span> - Change directory
+        </li>
+        <li>
+          <span className="text-blue-400">cat {"<file>"}</span> - Display file content
+        </li>
+        <li>
+          <span className="text-blue-400">echo {"<text>"}</span> - Print text
+        </li>
+        <li>
+          <span className="text-blue-400">date</span> - Show date/time
+        </li>
+        <li>
+          <span className="text-blue-400">uname -a</span> - System info
+        </li>
+        <li>
+          <span className="text-blue-400">uptime</span> - Show uptime
+        </li>
+        <li>
+          <span className="text-blue-400">ps / top</span> - Process status
+        </li>
+        <li>
+          <span className="text-blue-400">history</span> - Command history
+        </li>
+        <li>
+          <span className="text-blue-400">clear</span> - Clear screen
+        </li>
+        <li>
+          <span className="text-blue-400">help</span> - Show this help
+        </li>
       </ul>
     );
     this.generateResultRow(this.curInputTimes, help);

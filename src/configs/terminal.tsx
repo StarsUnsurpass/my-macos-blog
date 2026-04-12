@@ -1,8 +1,7 @@
 import type { TerminalData } from "~/types";
-import knowledge from "./knowledge";
 
+// We'll populate this asynchronously or keep it simple for now
 const terminal: TerminalData[] = [
-  knowledge,
   {
     id: "about",
     title: "about",
@@ -15,7 +14,8 @@ const terminal: TerminalData[] = [
         content: (
           <div className="py-1">
             <div>
-              Hi, this is Ace. I am a software engineer interested in building cool things.
+              Hi, this is Ace. I am a software engineer interested in building cool
+              things.
             </div>
           </div>
         )
