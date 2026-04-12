@@ -319,7 +319,13 @@ export default class Terminal extends React.Component<{}, TerminalState> {
         <span>{`cat: ${args}: No such file or directory`}</span>
       );
     } else {
-      this.generateResultRow(this.curInputTimes, <span>{file.content}</span>);
+      const content =
+        typeof file.content === "string" ? (
+          <div className="whitespace-pre-wrap">{file.content}</div>
+        ) : (
+          file.content
+        );
+      this.generateResultRow(this.curInputTimes, <span>{content}</span>);
     }
   };
 
@@ -332,6 +338,9 @@ export default class Terminal extends React.Component<{}, TerminalState> {
   help = () => {
     const help = (
       <ul className="list-disc ml-6 pb-1.5 opacity-80">
+        <li><span className="text-blue-400">ls</span> - List directory contents</li>
+        <li><span className="text-blue-400">cd {"<dir>"}</span> - Change directory</li>
+        <li><span className="text-blue-400">cat {"<file>"}</span> - Display file content</li>
         <li><span className="text-blue-400">echo {"<text>"}</span> - Print text</li>
         <li><span className="text-blue-400">date</span> - Show date/time</li>
         <li><span className="text-blue-400">uname -a</span> - System info</li>

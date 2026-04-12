@@ -1,6 +1,8 @@
 import type { TerminalData } from "~/types";
+import knowledge from "./knowledge";
 
 const terminal: TerminalData[] = [
+  knowledge,
   {
     id: "about",
     title: "about",
