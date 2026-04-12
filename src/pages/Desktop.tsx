@@ -44,7 +44,8 @@ export default function Desktop(props: MacActions) {
   });
 
   const [contextMenu, setContextMenu] = useState({ visible: false, x: 0, y: 0 });
-  const [spotlightBtnRef, setSpotlightBtnRef] = useState<React.RefObject<HTMLDivElement> | null>(null);
+  const [spotlightBtnRef, setSpotlightBtnRef] =
+    useState<React.RefObject<HTMLDivElement> | null>(null);
 
   const dark = useStore((state) => state.dark);
   const brightness = useStore((state) => state.brightness);
@@ -78,11 +79,6 @@ export default function Desktop(props: MacActions) {
   };
 
   const toggleLaunchpad = (target: boolean): void => {
-    const r = document.querySelector(`#launchpad`) as HTMLElement;
-    if (r) {
-      r.style.transform = target ? "scale(1)" : "scale(1.1)";
-      r.style.transition = "0.2s";
-    }
     setState((s) => ({ ...s, showLaunchpad: target }));
   };
 
@@ -131,11 +127,11 @@ export default function Desktop(props: MacActions) {
       newShowApps[id] = false;
       const newMaxApps = { ...s.maxApps };
       newMaxApps[id] = false;
-      return { 
-        ...s, 
-        showApps: newShowApps, 
-        maxApps: newMaxApps, 
-        hideDockAndTopbar: false 
+      return {
+        ...s,
+        showApps: newShowApps,
+        maxApps: newMaxApps,
+        hideDockAndTopbar: false
       };
     });
   };
@@ -150,7 +146,7 @@ export default function Desktop(props: MacActions) {
       const newMinApps = { ...s.minApps };
       newMinApps[id] = false;
       const currentApp = apps.find((app) => app.id === id);
-      
+
       return {
         ...s,
         showApps: newShowApps,
@@ -185,13 +181,20 @@ export default function Desktop(props: MacActions) {
         setSpotlightBtnRef={setSpotlightBtnRef}
       />
 
-      <div 
+      <div
         id="window-container"
-        className="z-10 fixed" 
-        style={{ top: 0, left: 0, width: "100vw", height: "100vh", marginTop: minMarginY, pointerEvents: "none" }}
+        className="z-10 fixed"
+        style={{
+          top: 0,
+          left: 0,
+          width: "100vw",
+          height: "100vh",
+          marginTop: minMarginY,
+          pointerEvents: "none"
+        }}
       >
         <AnimatePresence>
-          {apps.map((app) => (
+          {apps.map((app) =>
             app.desktop && state.showApps[app.id] ? (
               <AppWindow
                 key={`desktop-app-${app.id}`}
@@ -218,7 +221,7 @@ export default function Desktop(props: MacActions) {
                 {React.cloneElement(app.content as React.ReactElement, { openApp })}
               </AppWindow>
             ) : null
-          ))}
+          )}
         </AnimatePresence>
       </div>
 
@@ -231,14 +234,18 @@ export default function Desktop(props: MacActions) {
         />
       )}
 
-      <Launchpad show={state.showLaunchpad} toggleLaunchpad={toggleLaunchpad} openApp={openApp} />
+      <Launchpad
+        show={state.showLaunchpad}
+        toggleLaunchpad={toggleLaunchpad}
+        openApp={openApp}
+      />
 
-      <StageManager 
-        show={stageManager} 
-        showApps={state.showApps} 
-        appsZ={state.appsZ} 
-        maxZ={state.maxZ} 
-        openApp={openApp} 
+      <StageManager
+        show={stageManager}
+        showApps={state.showApps}
+        appsZ={state.appsZ}
+        maxZ={state.maxZ}
+        openApp={openApp}
       />
 
       <Dock
