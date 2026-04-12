@@ -31,6 +31,6 @@ const knowledgeData = {
     children: getTerminalData('knowledge', 'knowledge')
 };
 
-// 直接保存为 JSON 文件，避免 JS 解析压力
-fs.writeFileSync('src/configs/knowledge.json', JSON.stringify(knowledgeData, null, 2));
-console.log('Successfully generated src/configs/knowledge.json');
+// 直接保存为 JSON 文件，放在 public 目录下以便生产环境访问
+fs.writeFileSync('public/knowledge.json', JSON.stringify(knowledgeData, null, 2));
+console.log('Successfully generated public/knowledge.json');

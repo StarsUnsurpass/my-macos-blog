@@ -227,7 +227,7 @@ export default function Finder({ openApp }: { openApp?: (id: string) => void }) 
   useEffect(() => {
     const fetchKnowledge = async () => {
       try {
-        const response = await fetch("/src/configs/knowledge.json");
+        const response = await fetch("/knowledge.json");
         if (!response.ok) return;
         const knowledge = await response.json();
         const knowledgeFiles = generateKnowledgeFiles([knowledge], "Knowledge");
